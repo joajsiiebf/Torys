@@ -41,6 +41,10 @@ header p{
   opacity:0.8;
 }
 
+#onlineCount{
+  color:#FFD700; font-weight:bold; text-align:center; margin-bottom:10px;
+}
+
 #toryForm{
   background: rgba(255,255,255,0.05);
   backdrop-filter: blur(15px) saturate(200%);
@@ -142,6 +146,8 @@ header p{
     <p>Comparte, comenta y vota tus Torys favoritos</p>
   </header>
 
+  <div id="onlineCount">Personas en línea: 0</div>
+
   <form id="toryForm">
     <input id="toryInput" type="text" placeholder="Escribe tu Tory..." autocomplete="off"/>
     <input id="toryImg" type="file" accept="image/*"/>
@@ -199,12 +205,27 @@ const toryFeed=document.getElementById('toryFeed');
 const toryForm=document.getElementById('toryForm');
 const toryInput=document.getElementById('toryInput');
 const toryImg=document.getElementById('toryImg');
+const onlineCount = document.getElementById('onlineCount');
+
+// Conexión de visitantes en tiempo real
+const presenceRef = db.ref('presence');
+const myRef = presenceRef.push();
+myRef.onDisconnect().remove(); // se elimina cuando se desconecta
+myRef.set(true);
+presenceRef.on('value', snap => {
+  const count = snap.numChildren();
+  onlineCount.textContent = `Personas en línea: ${count}`;
+});
+
 function renderTory(id,data){
  if(document.querySelector('.placeholder')) document.querySelector('.placeholder').remove();
  const div=document.createElement('div'); div.className='toryCard'; div.dataset.id=id;
- div.style.color='#FFFFFF';
+ let text = data.text;
+ let isOwner = false;
+ if(text.includes('#OWNER')){ isOwner=true; text = text.replace('#OWNER',''); }
  const date=new Date(data.timestamp||Date.now()); const timeStr=date.toLocaleString();
- div.innerHTML=`<div class='timestamp'>${timeStr}</div><div>${data.text}</div>`;
+ const ownerBadge = isOwner ? '<span style="color:#FFD700; font-weight:bold; margin-left:10px;">[OWNER]</span>':'';
+ div.innerHTML = `<div class='timestamp'>${timeStr}${ownerBadge}</div><div>${text}</div>`;
  if(data.imgUrl){const img=document.createElement('img'); img.src=data.imgUrl; div.appendChild(img);}
  const actions=document.createElement('div'); actions.className='toryActions';
  const likeBtn=document.createElement('button'); likeBtn.textContent=`👍 ${data.likes||0}`;
