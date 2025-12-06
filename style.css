@@ -114,20 +114,64 @@ main {
   margin-top: 20px;
 }
 
-/* BOTTOM NAVBAR FIJA HORIZONTAL */
-.bottom-navbar {
+/* BOTTOM DOCK - Estilo iPhone Liquid Glass */
+.bottom-dock {
   position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
+  bottom: 20px; /* flotante sobre el contenido */
+  left: 50%;
+  transform: translateX(-50%);
   height: 70px;
-  background: var(--fb-blue);
+  padding: 0 20px;
+  background: rgba(255, 255, 255, 0.2); /* Glass */
+  backdrop-filter: blur(20px);
+  border-radius: 35px; /* redondeado completo */
+  box-shadow: 0 10px 20px rgba(0,0,0,0.25);
   display: flex;
-  justify-content: space-around; /* Distribuye los círculos horizontalmente */
+  justify-content: space-around;
   align-items: center;
-  padding: 0 10px;
-  box-shadow: 0 -3px 6px var(--shadow);
+  gap: 15px;
   z-index: 1000;
+}
+
+/* Círculos de los iconos */
+.dock-icon {
+  width: 50px;
+  height: 50px;
+  background: rgba(255,255,255,0.8);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: 0.2s;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+}
+
+.dock-icon:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+}
+
+/* Asegura que el feed no se esconda debajo del dock */
+main {
+  padding: 20px;
+  padding-bottom: 120px; /* espacio para el dock flotante */
+  max-width: 600px;
+  margin: auto;
+}
+
+/* Opcional: Tooltip */
+.dock-icon[title]:hover::after {
+  content: attr(title);
+  position: absolute;
+  bottom: 90px;
+  background: rgba(0,0,0,0.75);
+  color: white;
+  padding: 3px 8px;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  white-space: nowrap;
 }
 
 /* Círculos grandes */
