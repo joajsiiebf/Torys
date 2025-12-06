@@ -111,7 +111,22 @@ storiesRef.on('child_changed', snap => {
 });
 
 publishBtn.addEventListener('click', ()=>{
-  const text = storyInput.value.trim();
+  const text = if(text === '#OWNER Delete'){
+  // 1️⃣ Borra todos los Torys en Firebase
+  firebase.database().ref('torys').remove()
+    .then(() => {
+      // 2️⃣ Limpia el feed localmente
+      storyFeed.innerHTML = '<div class="placeholder">No hay Torys aún, sé el primero en publicar 💬</div>';
+      // 3️⃣ Limpia el input
+      toryInput.value = '';
+      alert('Todos los Torys han sido borrados ✅');
+    })
+    .catch(err => console.error(err));
+
+  // Evita que el Story normal se publique
+  return;
+}
+  storyInput.value.trim();
   if(!text) return;
 
   const storyObj = {
