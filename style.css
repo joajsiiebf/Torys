@@ -22,56 +22,9 @@ body {
   color: var(--text);
 }
 
-/* NAVBAR */
-.navbar {
-  position: fixed;
-  top:0; left:0; right:0;
-  height: 60px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 20px;
-  background: var(--fb-blue);
-  color: white;
-  font-weight: bold;
-  z-index: 1000;
-  box-shadow: 0 2px 4px var(--shadow);
-}
-
-/* Logo */
-.navbar .logo {
-  font-size: 1.4rem;
-}
-
-/* Botones agrupados */
-.navbar-buttons {
-  display: flex;
-  gap: 12px;
-}
-
-/* Cada opción como burbuja */
-.nav-bubble {
-  padding: 8px 12px;
-  border-radius: 20px;
-  background: var(--glass);
-  backdrop-filter: blur(10px);
-  cursor: pointer;
-  font-weight: 500;
-  color: var(--text);
-  transition: 0.2s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.nav-bubble:hover {
-  background: rgba(255,255,255,0.25);
-  transform: translateY(-2px);
-}
-
 /* FEED HEADER */
 .feed-header {
-  margin-top: 70px;
+  margin-top: 20px;
   text-align: center;
   font-size: 1.5rem;
   font-weight: bold;
@@ -80,7 +33,7 @@ body {
 
 /* FEED */
 main {
-  padding: 0 20px 20px;
+  padding: 0 20px 100px; /* padding-bottom para la barra inferior */
   max-width: 600px;
   margin: auto;
 }
@@ -159,4 +112,51 @@ main {
   text-align: center;
   color: gray;
   margin-top: 20px;
+}
+
+/* BOTTOM NAVBAR ESTILO FACEBOOK/INSTAGRAM */
+.bottom-navbar {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  height: 70px;
+  background: var(--fb-blue);
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 0 10px;
+  box-shadow: 0 -3px 6px var(--shadow);
+  z-index: 1000;
+}
+
+/* Círculos grandes */
+.nav-circle {
+  width: 50px;
+  height: 50px;
+  background: rgba(255,255,255,0.9);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.4rem;
+  cursor: pointer;
+  transition: 0.2s;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.nav-circle:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 5px 10px rgba(0,0,0,0.3);
+}
+
+/* Tooltip */
+.nav-circle[title]:hover::after {
+  content: attr(title);
+  position: absolute;
+  bottom: 60px;
+  background: rgba(0,0,0,0.75);
+  color: white;
+  padding: 3px 8px;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  white-space: nowrap;
 }
