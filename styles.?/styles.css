@@ -1,0 +1,174 @@
+/* ===============================
+   Variables para temas y Glassmorphism
+   =============================== */
+:root {
+  --color-bg-light: #f0f2f5;
+  --color-bg-dark: #18191a;
+  --color-text-light: #050505;
+  --color-text-dark: #e4e6eb;
+  --glass-bg: rgba(255,255,255,0.2);
+  --glass-bg-dark: rgba(24,24,24,0.5);
+  --blur: 15px;
+  --primary-color: #1877f2;
+  --card-radius: 15px;
+}
+
+/* ===============================
+   Reset básico y tipografía
+   =============================== */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+  background-color: var(--color-bg-light);
+  color: var(--color-text-light);
+  transition: background 0.3s, color 0.3s;
+  padding-top: 60px;
+}
+
+/* ===============================
+   Modo oscuro
+   =============================== */
+body.dark {
+  background-color: var(--color-bg-dark);
+  color: var(--color-text-dark);
+}
+
+/* ===============================
+   Glassmorphism
+   =============================== */
+.glass {
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--blur));
+  border-radius: var(--card-radius);
+  padding: 10px;
+}
+
+body.dark .glass {
+  background: var(--glass-bg-dark);
+}
+
+/* ===============================
+   Barra superior
+   =============================== */
+.top-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 15px;
+  z-index: 100;
+}
+
+.top-nav h1 {
+  font-size: 1.5rem;
+  color: var(--primary-color);
+}
+
+.top-nav button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.2rem;
+  margin-left: 10px;
+  color: inherit;
+}
+
+/* ===============================
+   Feed principal
+   =============================== */
+#feed {
+  max-width: 600px;
+  margin: 20px auto;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  padding: 0 10px;
+}
+
+.placeholder {
+  text-align: center;
+  color: gray;
+}
+
+/* ===============================
+   Tarjetas de Story
+   =============================== */
+.story-card {
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--blur));
+  border-radius: var(--card-radius);
+  padding: 15px;
+  transition: background 0.3s;
+}
+
+body.dark .story-card {
+  background: var(--glass-bg-dark);
+}
+
+.story-card .nickname {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.story-card .timestamp {
+  font-size: 0.8rem;
+  color: gray;
+  margin-bottom: 10px;
+}
+
+/* ===============================
+   Modales
+   =============================== */
+.modal {
+  display: none;
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom:0;
+  background: rgba(0,0,0,0.5);
+  justify-content: center;
+  align-items: center;
+  z-index: 200;
+}
+
+.modal-content {
+  width: 90%;
+  max-width: 400px;
+  padding: 20px;
+  position: relative;
+}
+
+.modal textarea, .modal input {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: var(--card-radius);
+  border: none;
+  resize: vertical;
+}
+
+.modal button {
+  cursor: pointer;
+  padding: 8px 15px;
+  margin-top: 5px;
+  border-radius: var(--card-radius);
+  border: none;
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.closeModal {
+  position: absolute;
+  top: 5px;
+  right: 10px;
+  font-size: 1.5rem;
+  background: none;
+  color: inherit;
+}
