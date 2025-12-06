@@ -1,0 +1,56 @@
+/* Reset y tipografía */
+*{margin:0;padding:0;box-sizing:border-box;}
+html, body{width:100%;height:100%;font-family:'Segoe UI',sans-serif;background:#f0f2f5;overflow-x:hidden;}
+body::before {content:'';position:fixed;top:0;left:0;width:100%;height:100%;background: radial-gradient(circle at center, #FFD700 0%, #f0f2f5 80%);z-index:-2;}
+.particles{position:fixed; top:0; left:0; width:100%; height:100%; z-index:-1; pointer-events:none;}
+
+/* Barra superior tipo Facebook */
+.topBar{
+  position:fixed; top:0; left:0; width:100%; height:60px; background:#1877f2; color:white;
+  display:flex; align-items:center; justify-content:center; font-size:1.5rem; font-weight:bold; z-index:100;
+  box-shadow:0 2px 4px rgba(0,0,0,0.2);
+}
+
+/* Contenedor principal */
+.container{width:90%; max-width:800px; margin-top:80px; display:flex; flex-direction:column; gap:20px;}
+
+/* Usuarios online */
+#onlineCount{color:#606770; font-weight:bold; text-align:center; margin-bottom:10px;}
+
+/* Nickname */
+#nicknameBubble{position:fixed; bottom:20px; left:20px; background:#1877f2; color:white; padding:10px 15px; border-radius:20px; cursor:pointer; font-weight:bold; box-shadow:0 2px 6px rgba(0,0,0,0.3); transition:0.2s; z-index:10;}
+#nicknameBubble:hover{box-shadow:0 4px 12px rgba(0,0,0,0.4);}
+#nicknameModal{position:fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.5); display:flex; justify-content:center; align-items:center; z-index:20; display:none;}
+#nicknameModalContent{background:white; border-radius:15px; padding:20px; display:flex; flex-direction:column; gap:10px; width:90%; max-width:350px;}
+#nicknameModalContent input, #nicknameModalContent button{padding:10px; border-radius:6px; border:1px solid #ccc; font-size:1rem;}
+#nicknameModalContent button{background:#1877f2; color:white; font-weight:bold; cursor:pointer; transition:0.2s; border:none;}
+#nicknameModalContent button:hover{background:#145dbf;}
+
+/* Formulario de publicación */
+#toryForm{background:white; border-radius:10px; padding:15px; display:flex; flex-direction:column; gap:10px; box-shadow:0 1px 3px rgba(0,0,0,0.2);}
+#toryForm input[type=text]{padding:10px; border-radius:20px; border:1px solid #ccc; font-size:1rem;}
+#toryForm button{padding:10px; border:none; border-radius:20px; background:#1877f2; color:white; font-weight:bold; cursor:pointer; transition: transform 0.2s, box-shadow 0.2s;}
+#toryForm button:hover{transform:scale(1.03); box-shadow:0 2px 6px rgba(0,0,0,0.3);}
+
+/* Feed */
+#toryFeedContainer{display:flex; flex-direction:column; gap:15px;}
+#toryFeedTitle{color:#050505; font-size:1.5rem; font-weight:bold; margin-bottom:10px;}
+#toryFeed{display:flex; flex-direction:column; gap:15px; max-height:70vh; overflow-y:auto; scrollbar-width:thin; scrollbar-color:#1877f2 rgba(0,0,0,0.1);}
+#toryFeed::-webkit-scrollbar{width:8px;}
+#toryFeed::-webkit-scrollbar-track{background: rgba(0,0,0,0.05); border-radius:4px;}
+#toryFeed::-webkit-scrollbar-thumb{background: #1877f2; border-radius:4px;}
+
+/* Tory cards */
+.toryCard{background:white; border-radius:10px; padding:15px; box-shadow:0 1px 3px rgba(0,0,0,0.2); color:#050505; position:relative; transition: transform 0.2s, box-shadow 0.2s;}
+.toryCard:hover{transform:translateY(-2px); box-shadow:0 4px 12px rgba(0,0,0,0.2);}
+.toryCard .timestamp{color:#606770; font-size:0.75rem; opacity:0.9; margin-bottom:5px;}
+.toryActions{display:flex; justify-content:flex-start; gap:10px; margin-top:10px; flex-wrap:wrap;}
+.toryActions button{padding:5px 12px; border:none; border-radius:8px; background:#f0f2f5; color:#050505; font-weight:bold; cursor:pointer; transition:0.2s;}
+.toryActions button:hover{background:#e4e6eb;}
+.nicknameBubbleCard{position:absolute; top:10px; right:10px; background:#f0f2f5; color:#050505; padding:3px 8px; border-radius:12px; font-size:0.75rem; font-weight:bold; opacity:0.9;}
+
+/* Scroll top */
+#scrollTopBtn{position:fixed; bottom:20px; right:20px; padding:10px; border:none; border-radius:50%; background:#1877f2; color:white; font-weight:bold; cursor:pointer; box-shadow:0 2px 6px rgba(0,0,0,0.3); display:block; z-index:10;}
+#scrollTopBtn:hover{box-shadow:0 4px 12px rgba(0,0,0,0.4);}
+
+@media(max-width:768px){.container{width:95%;}}
