@@ -1,0 +1,149 @@
+/* VARIABLES DE TEMA */
+:root {
+  --bg: #f0f2f5;
+  --text: #050505;
+  --glass: rgba(255,255,255,0.15);
+  --glass-border: rgba(255,255,255,0.3);
+  --shadow: rgba(0,0,0,0.1);
+}
+body.dark {
+  --bg: #18191a;
+  --text: #e4e6eb;
+  --glass: rgba(24,24,24,0.4);
+  --glass-border: rgba(255,255,255,0.1);
+  --shadow: rgba(0,0,0,0.5);
+}
+
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+}
+
+/* NAVBAR */
+.navbar {
+  position: fixed;
+  top:0; left:0; right:0;
+  height: 60px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+  background: var(--glass);
+  border-bottom: 1px solid var(--glass-border);
+  backdrop-filter: blur(12px);
+  z-index: 1000;
+  font-weight: bold;
+  font-size: 18px;
+}
+.navbar-left { color: #1877f2; }
+.navbar-right button {
+  margin-left: 10px;
+  padding: 6px 10px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  background: var(--glass);
+  backdrop-filter: blur(12px);
+  transition: 0.2s;
+}
+.navbar-right button:hover {
+  background: rgba(255,255,255,0.25);
+}
+
+/* FEED HEADER */
+.feed-header {
+  margin-top: 70px;
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+  padding-bottom: 10px;
+}
+
+/* FEED */
+main {
+  padding: 0 20px 20px;
+  max-width: 600px;
+  margin: auto;
+}
+
+/* STORY CARD */
+.storyCard {
+  background: var(--glass);
+  backdrop-filter: blur(12px);
+  border-radius: 15px;
+  padding: 12px 15px;
+  margin-bottom: 15px;
+  box-shadow: 0 6px 10px var(--shadow);
+  transition: 0.2s;
+}
+.storyCard:hover { transform: translateY(-2px); }
+.nicknameBubble {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+.storyCard small {
+  display: block;
+  margin-top: 5px;
+  font-size: 0.75rem;
+  color: gray;
+}
+
+/* REACTIONS */
+.reactions {
+  display: flex;
+  gap: 10px;
+  margin-top: 8px;
+}
+.reactions button {
+  border: none;
+  background: rgba(0,0,0,0.05);
+  border-radius: 8px;
+  padding: 4px 10px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+.reactions button:hover { background: rgba(0,0,0,0.1); }
+
+/* MODAL */
+.modal {
+  display: none;
+  position: fixed;
+  top:0; left:0; right:0; bottom:0;
+  background: rgba(0,0,0,0.5);
+  justify-content: center;
+  align-items: center;
+  z-index: 1001;
+}
+.modal-content {
+  background: var(--glass);
+  backdrop-filter: blur(12px);
+  padding: 20px;
+  border-radius: 15px;
+  width: 90%;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.modal-content textarea, .modal-content input {
+  width: 100%;
+  padding: 8px;
+  border-radius: 6px;
+  border: none;
+  resize: none;
+}
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+button {
+  cursor: pointer;
+}
+.placeholder {
+  text-align: center;
+  color: gray;
+  margin-top: 20px;
+}
