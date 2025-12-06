@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Foro de Torys</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<canvas class="particles"></canvas>
+<div class="container">
+  <header>
+    <h1>💬 Foro de Torys</h1>
+    <p>Comparte, comenta y vota tus Torys favoritos</p>
+  </header>
+
+  <div id="onlineCount">Personas en línea: 0</div>
+  <div id="nicknameBubble">Elige tu Nickname</div>
+
+  <div id="nicknameModal">
+    <div id="nicknameModalContent">
+      <input id="nicknameInput" type="text" placeholder="Tu nickname anónimo" maxlength="15" autocomplete="off"/>
+      <button id="setNicknameBtn">Guardar Nickname</button>
+    </div>
+  </div>
+
+  <form id="toryForm">
+    <input id="toryInput" type="text" placeholder="Escribe tu Tory..." autocomplete="off"/>
+    <button type="submit">Publicar Tory</button>
+  </form>
+
+  <div id="toryFeedContainer">
+    <div id="toryFeedTitle">Torys Recientes</div>
+    <div id="toryFeed">
+      <div class="placeholder">No hay Torys aún, sé el primero en publicar 💬</div>
+    </div>
+  </div>
+</div>
+<button id="scrollTopBtn">↑</button>
+
+<script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-database.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
