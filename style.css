@@ -33,7 +33,8 @@ body {
 
 /* FEED */
 main {
-  padding: 0 20px 100px; /* padding-bottom para la barra inferior */
+  padding: 20px;
+  padding-bottom: 120px; /* espacio para el dock flotante */
   max-width: 600px;
   margin: auto;
 }
@@ -117,7 +118,7 @@ main {
 /* BOTTOM DOCK - Estilo iPhone Liquid Glass */
 .bottom-dock {
   position: fixed;
-  bottom: 20px; /* flotante sobre el contenido */
+  bottom: 20px; /* flotante */
   left: 50%;
   transform: translateX(-50%);
   height: 70px;
@@ -153,80 +154,11 @@ main {
   box-shadow: 0 10px 20px rgba(0,0,0,0.3);
 }
 
-/* Asegura que el feed no se esconda debajo del dock */
-main {
-  padding: 20px;
-  padding-bottom: 120px; /* espacio para el dock flotante */
-  max-width: 600px;
-  margin: auto;
-}
-
-/* Opcional: Tooltip */
+/* Tooltip opcional */
 .dock-icon[title]:hover::after {
   content: attr(title);
   position: absolute;
   bottom: 90px;
-  background: rgba(0,0,0,0.75);
-  color: white;
-  padding: 3px 8px;
-  border-radius: 6px;
-  font-size: 0.75rem;
-  white-space: nowrap;
-}
-
-/* Círculos grandes */
-.nav-circle {
-  width: 50px;
-  height: 50px;
-  background: rgba(255,255,255,0.95);
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 1.5rem;
-  cursor: pointer;
-  transition: 0.2s;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-}
-
-.nav-circle:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 5px 10px rgba(0,0,0,0.3);
-}
-
-/* Asegura que el feed no se esconda debajo de la barra */
-main {
-  padding: 20px;
-  padding-bottom: 100px; /* espacio para la barra inferior */
-  max-width: 600px;
-  margin: auto;
-}
-
-/* Círculos grandes */
-.nav-circle {
-  width: 50px;
-  height: 50px;
-  background: rgba(255,255,255,0.9);
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 1.4rem;
-  cursor: pointer;
-  transition: 0.2s;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-}
-
-.nav-circle:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 5px 10px rgba(0,0,0,0.3);
-}
-
-/* Tooltip */
-.nav-circle[title]:hover::after {
-  content: attr(title);
-  position: absolute;
-  bottom: 60px;
   background: rgba(0,0,0,0.75);
   color: white;
   padding: 3px 8px;
