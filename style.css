@@ -114,18 +114,48 @@ main {
   margin-top: 20px;
 }
 
-/* BOTTOM NAVBAR ESTILO FACEBOOK/INSTAGRAM */
+/* BOTTOM NAVBAR FIJA HORIZONTAL */
 .bottom-navbar {
   position: fixed;
-  bottom: 0; left: 0; right: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
   height: 70px;
   background: var(--fb-blue);
   display: flex;
-  justify-content: space-around;
+  justify-content: space-around; /* Distribuye los círculos horizontalmente */
   align-items: center;
   padding: 0 10px;
   box-shadow: 0 -3px 6px var(--shadow);
   z-index: 1000;
+}
+
+/* Círculos grandes */
+.nav-circle {
+  width: 50px;
+  height: 50px;
+  background: rgba(255,255,255,0.95);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: 0.2s;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.nav-circle:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 5px 10px rgba(0,0,0,0.3);
+}
+
+/* Asegura que el feed no se esconda debajo de la barra */
+main {
+  padding: 20px;
+  padding-bottom: 100px; /* espacio para la barra inferior */
+  max-width: 600px;
+  margin: auto;
 }
 
 /* Círculos grandes */
