@@ -1,34 +1,39 @@
-/* -----------------------------
-   Estilo Torys estilo iOS (optimizado)
-   ----------------------------- */
 :root {
-  --bg-main: #0a0a0f;
-  --bg-alt: #0f0f1a;
+  --bg-main: #000000;
+  --bg-alt: #0a0a0a;
   --accent: #5ac8fa;
   --accent-dark: #007aff;
-  --glass: rgba(255,255,255,0.06);
-  --glass-border: rgba(255,255,255,0.12);
+  --glass: rgba(255,255,255,0.08);
+  --glass-border: rgba(255,255,255,0.15);
   --radius: 20px;
-  --blur: 18px;
+  --blur: 20px;
 }
 
 body {
   font-family: 'San Francisco', 'Inter', sans-serif;
-  background: linear-gradient(180deg, var(--bg-main), var(--bg-alt));
-  color: #fff;
   margin: 0;
   padding: 20px;
-  -webkit-font-smoothing: antialiased;
+  background: var(--bg-main);
+  color: #fff;
 }
 
-/* -----------------------------
-   Tarjetas estilo iOS
-   ----------------------------- */
+body.dark-theme {
+  background: #000000;
+}
+
+/* FEED */
+#storyFeed {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  margin-bottom: 120px;
+}
+
+/* Tarjetas Liquid Glass */
 .tory-card {
   background: var(--glass);
   border-radius: var(--radius);
-  padding: 18px;
-  margin-bottom: 18px;
+  padding: 20px;
   border: 1px solid var(--glass-border);
   backdrop-filter: blur(var(--blur));
   box-shadow: 0 12px 30px rgba(0,0,0,0.5);
@@ -39,10 +44,12 @@ body {
   box-shadow: 0 18px 36px rgba(90,200,250,0.3);
 }
 
-/* -----------------------------
-   Botones estilo iOS
-   ----------------------------- */
+/* Botones estilo iOS centrados */
 .btn {
+  display: block;
+  width: 100%;
+  max-width: 180px;
+  margin: 10px auto;
   padding: 12px 18px;
   border-radius: 16px;
   border: none;
@@ -52,215 +59,107 @@ body {
   color: #fff;
   background: linear-gradient(90deg, var(--accent), var(--accent-dark));
   box-shadow: 0 6px 20px rgba(90,200,250,0.25);
-  transition: transform 0.15s ease, box-shadow 0.15s ease, filter 0.2s ease;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 .btn:hover {
   transform: translateY(-2px);
   box-shadow: 0 10px 28px rgba(90,200,250,0.35);
-  filter: brightness(1.05);
 }
 
-/* -----------------------------
-   Dock inferior estilo iPhone
-   ----------------------------- */
+/* MODALES */
+.modal {
+  position: fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  backdrop-filter: blur(10px);
+  background: rgba(0,0,0,0.6);
+  z-index: 999;
+}
+.modal-content {
+  background: var(--glass);
+  border-radius: var(--radius);
+  padding: 24px;
+  width: 90%;
+  max-width: 400px;
+  backdrop-filter: blur(var(--blur));
+  border: 1px solid var(--glass-border);
+}
+
+/* DOCK */
 .bottom-dock {
   position: fixed;
-  bottom: 24px;
+  bottom: 20px;
   left: 50%;
   transform: translateX(-50%);
-  width: min(750px, 92%);
-  height: 76px;
+  display: flex;
+  gap: 18px;
+  padding: 12px 24px;
   border-radius: 999px;
   background: rgba(255,255,255,0.06);
-  border: 1px solid rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.12);
   backdrop-filter: blur(22px);
   box-shadow: 0 18px 60px rgba(0,0,0,0.6);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 22px;
-  z-index: 100;
 }
-
-/* Iconos del dock */
-.bottom-dock .dock-icon {
+.dock-icon {
   width: 56px;
   height: 56px;
-  border-radius: 14px;
-  background: rgba(255,255,255,0.08);
   display: grid;
   place-items: center;
-  transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.2s ease;
+  border-radius: 14px;
+  background: rgba(255,255,255,0.08);
   cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
-.bottom-dock .dock-icon:hover {
-  transform: translateY(-4px) scale(1.08);
-  box-shadow: 0 12px 36px rgba(90,200,250,0.3);
-  background: rgba(255,255,255,0.12);
-}
-
-/* -----------------------------
-   Avatares circulares estilo iOS
-   ----------------------------- */
-.avatar {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  border: 2px solid rgba(255,255,255,0.08);
-  transition: box-shadow 0.2s ease, transform 0.2s ease;
-}
-.avatar:hover {
-  box-shadow: 0 0 12px rgba(90,200,250,0.6);
-  transform: scale(1.05);
+.dock-icon:hover {
+  transform: translateY(-4px) scale(1.1);
+  box-shadow: 0 12px 36px rgba(90,200,250,0.4);
 }
 
-/* -----------------------------
-   Tipografía limpia
-   ----------------------------- */
-h1,h2,h3,h4,h5 {
-  font-family: 'San Francisco', 'Poppins', sans-serif;
-  margin: 0 0 8px 0;
+/* Login dropdown */
+.login-dropdown {
+  position: fixed;
+  bottom: 100px;
+  right: 20px;
+  width: 240px;
+  padding: 16px;
+  border-radius: var(--radius);
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(var(--blur));
+  display: none;
+  z-index: 1000;
 }
-.muted {
-  color: rgba(255,255,255,0.6);
-  font-size: 0.9em;
+.login-dropdown.show {
+  display: block;
+}
+.login-dropdown input {
+  display:block;
+  width:100%;
+  margin:8px 0;
+  padding:8px;
+  border-radius:12px;
+  border:none;
+  background: rgba(255,255,255,0.08);
+  color:#fff;
+}
+.login-dropdown p {
+  text-align:center;
+  font-size:14px;
+  margin-top:10px;
+  color:#5ac8fa;
 }
 
-/* -----------------------------
-   Animación suave al aparecer
-   ----------------------------- */
+/* Animaciones */
 .fade-up {
   opacity: 0;
   transform: translateY(10px);
   animation: fadeUp 0.6s forwards;
 }
 @keyframes fadeUp {
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* -----------------------------
-   LOGIN LOCAL ESTILO iOS
-   ----------------------------- */
-.login-dropdown {
-  position: fixed;
-  bottom: 110px;
-  left: 50%;
-  transform: translateX(-50%) scale(0);
-  background: rgba(255,255,255,0.06);
-  backdrop-filter: blur(18px);
-  border-radius: 20px;
-  padding: 16px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  width: 280px;
-  box-shadow: 0 12px 30px rgba(0,0,0,0.5);
-  z-index: 999;
-  opacity: 0;
-  transition: transform 0.25s ease, opacity 0.25s ease;
-}
-
-/* Mostrar login con animación tipo popup */
-.login-dropdown.show {
-  opacity: 1;
-  transform: translateX(-50%) scale(1);
-}
-
-.login-dropdown input {
-  width: 100%;
-  padding: 10px;
-  border-radius: 12px;
-  border: 1px solid rgba(255,255,255,0.12);
-  background: rgba(255,255,255,0.04);
-  color: #fff;
-  font-size: 14px;
-}
-
-.login-dropdown input::placeholder {
-  color: rgba(255,255,255,0.6);
-}
-
-.login-dropdown button {
-  width: 100%;
-  padding: 10px;
-  border-radius: 16px;
-  border: none;
-  cursor: pointer;
-  background: linear-gradient(90deg, var(--accent), var(--accent-dark));
-  color: #fff;
-  font-weight: 600;
-  transition: filter 0.2s ease;
-}
-
-.login-dropdown button:hover {
-  filter: brightness(1.1);
-}
-
-#loginMsg {
-  font-size: 0.9em;
-  color: #ff6b6b;
-  text-align: center;
-  margin-top: 4px;
-  transition: all 0.2s ease;
-}
-
-/* -----------------------------
-   MODALES ESTILO iOS
-   ----------------------------- */
-.modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.6);
-  display: none;
-  justify-content: center;
-  align-items: center;
-  z-index: 998;
-}
-
-.modal-content {
-  background: rgba(255,255,255,0.06);
-  backdrop-filter: blur(18px);
-  padding: 24px;
-  border-radius: 20px;
-  width: 90%;
-  max-width: 400px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.modal textarea,
-.modal input {
-  width: 100%;
-  padding: 10px;
-  border-radius: 12px;
-  border: 1px solid rgba(255,255,255,0.12);
-  background: rgba(255,255,255,0.04);
-  color: #fff;
-}
-
-.modal-actions {
-  display: flex;
-  justify-content: flex-end;
-  gap: 8px;
-}
-
-/* -----------------------------
-   Responsive
-   ----------------------------- */
-@media (max-width: 500px) {
-  .login-dropdown {
-    width: 90%;
-    bottom: 100px;
-  }
-  .bottom-dock {
-    width: 95%;
-  }
+  to { opacity:1; transform:translateY(0);}
 }
