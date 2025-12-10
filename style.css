@@ -1,5 +1,5 @@
 /* -----------------------------
-   Estilo Torys estilo iOS (solo CSS)
+   Estilo Torys estilo iOS (optimizado)
    ----------------------------- */
 :root {
   --bg-main: #0a0a0f;
@@ -21,7 +21,9 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* Tarjetas estilo iOS */
+/* -----------------------------
+   Tarjetas estilo iOS
+   ----------------------------- */
 .tory-card {
   background: var(--glass);
   border-radius: var(--radius);
@@ -37,7 +39,9 @@ body {
   box-shadow: 0 18px 36px rgba(90,200,250,0.3);
 }
 
-/* Botones estilo iOS */
+/* -----------------------------
+   Botones estilo iOS
+   ----------------------------- */
 .btn {
   padding: 12px 18px;
   border-radius: 16px;
@@ -48,14 +52,17 @@ body {
   color: #fff;
   background: linear-gradient(90deg, var(--accent), var(--accent-dark));
   box-shadow: 0 6px 20px rgba(90,200,250,0.25);
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, filter 0.2s ease;
 }
 .btn:hover {
   transform: translateY(-2px);
   box-shadow: 0 10px 28px rgba(90,200,250,0.35);
+  filter: brightness(1.05);
 }
 
-/* Dock inferior estilo iPhone */
+/* -----------------------------
+   Dock inferior estilo iPhone
+   ----------------------------- */
 .bottom-dock {
   position: fixed;
   bottom: 24px;
@@ -83,27 +90,33 @@ body {
   background: rgba(255,255,255,0.08);
   display: grid;
   place-items: center;
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.2s ease;
   cursor: pointer;
 }
 .bottom-dock .dock-icon:hover {
   transform: translateY(-4px) scale(1.08);
   box-shadow: 0 12px 36px rgba(90,200,250,0.3);
+  background: rgba(255,255,255,0.12);
 }
 
-/* Avatares circulares estilo iOS */
+/* -----------------------------
+   Avatares circulares estilo iOS
+   ----------------------------- */
 .avatar {
   width: 50px;
   height: 50px;
   border-radius: 50%;
   border: 2px solid rgba(255,255,255,0.08);
-  transition: box-shadow 0.2s ease;
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
 }
 .avatar:hover {
   box-shadow: 0 0 12px rgba(90,200,250,0.6);
+  transform: scale(1.05);
 }
 
-/* Tipografía limpia */
+/* -----------------------------
+   Tipografía limpia
+   ----------------------------- */
 h1,h2,h3,h4,h5 {
   font-family: 'San Francisco', 'Poppins', sans-serif;
   margin: 0 0 8px 0;
@@ -113,7 +126,9 @@ h1,h2,h3,h4,h5 {
   font-size: 0.9em;
 }
 
-/* Animación suave al aparecer */
+/* -----------------------------
+   Animación suave al aparecer
+   ----------------------------- */
 .fade-up {
   opacity: 0;
   transform: translateY(10px);
@@ -131,21 +146,28 @@ h1,h2,h3,h4,h5 {
    ----------------------------- */
 .login-dropdown {
   position: fixed;
-  bottom: 110px; /* encima del bottom dock */
+  bottom: 110px;
   left: 50%;
-  transform: translateX(-50%);
+  transform: translateX(-50%) scale(0);
   background: rgba(255,255,255,0.06);
   backdrop-filter: blur(18px);
   border-radius: 20px;
   padding: 16px;
-  display: none;
+  display: flex;
   flex-direction: column;
   align-items: center;
   gap: 8px;
   width: 280px;
   box-shadow: 0 12px 30px rgba(0,0,0,0.5);
   z-index: 999;
-  transition: all 0.25s ease;
+  opacity: 0;
+  transition: transform 0.25s ease, opacity 0.25s ease;
+}
+
+/* Mostrar login con animación tipo popup */
+.login-dropdown.show {
+  opacity: 1;
+  transform: translateX(-50%) scale(1);
 }
 
 .login-dropdown input {
@@ -183,12 +205,62 @@ h1,h2,h3,h4,h5 {
   color: #ff6b6b;
   text-align: center;
   margin-top: 4px;
+  transition: all 0.2s ease;
 }
 
-/* Ajuste responsive para móviles */
+/* -----------------------------
+   MODALES ESTILO iOS
+   ----------------------------- */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.6);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 998;
+}
+
+.modal-content {
+  background: rgba(255,255,255,0.06);
+  backdrop-filter: blur(18px);
+  padding: 24px;
+  border-radius: 20px;
+  width: 90%;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.modal textarea,
+.modal input {
+  width: 100%;
+  padding: 10px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.12);
+  background: rgba(255,255,255,0.04);
+  color: #fff;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+/* -----------------------------
+   Responsive
+   ----------------------------- */
 @media (max-width: 500px) {
   .login-dropdown {
     width: 90%;
     bottom: 100px;
+  }
+  .bottom-dock {
+    width: 95%;
   }
 }
