@@ -47,7 +47,7 @@ let currentUser = localStorage.getItem('currentUser') || null;
 let nickname = localStorage.getItem('nickname') || null;
 
 // -----------------------------
-// CAMBIO DE TEMA OSCURO / AMOLED
+// TOGGLE TEMA OSCURO / AMOLED
 // -----------------------------
 themeBtn.addEventListener('click', () => {
   document.body.classList.toggle('dark-theme');
@@ -154,55 +154,3 @@ setNicknameBtn.addEventListener('click', () => {
   nickname = nick;
   localStorage.setItem('nickname', nick);
   nicknameModal.style.display = 'none';
-});
-
-// -----------------------------
-// PUBLICAR STORY
-// -----------------------------
-publishBtn.addEventListener('click', () => {
-  const text = storyInput.value.trim();
-  if(!text) return;
-
-  const storyData = {
-    text,
-    user: currentUser || 'Anon',
-    nickname: nickname || 'Anon',
-    timestamp: Date.now()
-  };
-
-  db.ref('stories').push(storyData)
-    .then(() => {
-      storyInput.value = '';
-      storyModal.style.display = 'none';
-      loadStories();
-    })
-    .catch(err => console.error(err));
-});
-
-// -----------------------------
-// CARGAR STORIES
-// -----------------------------
-function loadStories(){
-  db.ref('stories').orderByChild('timestamp').limitToLast(20).once('value', snapshot => {
-    storyFeed.innerHTML = '';
-
-    if(!snapshot.exists()){
-      storyFeed.innerHTML = '<div class="placeholder fade-up">No hay stories aún 💬</div>';
-      return;
-    }
-
-    const stories = [];
-    snapshot.forEach(child => stories.push(child.val()));
-    stories.reverse().forEach(s => {
-      const card = document.createElement('div');
-      card.className = 'tory-card fade-up';
-      card.innerHTML = `<strong>${s.nickname}</strong><p>${s.text}</p>`;
-      storyFeed.appendChild(card);
-    });
-  });
-}
-
-// -----------------------------
-// INICIALIZAR
-// -----------------------------
-loadStories();
