@@ -1,118 +1,104 @@
 // -------------------------
-// DOCK ICONS FUNCTIONALITY
+// SELECTORES DOCK
 // -------------------------
-
 const themeBtn = document.getElementById("themeBtn");
 const newStoryBtn = document.getElementById("newStoryBtn");
 const changeNickBtn = document.getElementById("changeNickBtn");
 const shareBtn = document.getElementById("shareBtn");
-
-// Aquí puedes poner las funciones actuales de tus botones
-themeBtn.addEventListener("click", () => {
-  // Cambiar tema
-  document.body.classList.toggle("dark-theme");
-});
-
-newStoryBtn.addEventListener("click", () => {
-  document.getElementById("storyModal").style.display = "flex";
-});
-
-changeNickBtn.addEventListener("click", () => {
-  document.getElementById("nicknameModal").style.display = "flex";
-});
-
-shareBtn.addEventListener("click", () => {
-  alert("Función de compartir pendiente");
-});
-
-// -------------------------
-// LOGIN LOCAL
-// -------------------------
-
 const loginIcon = document.getElementById("loginIcon");
+
+// -------------------------
+// SELECTORES MODALES
+// -------------------------
+const storyModal = document.getElementById("storyModal");
+const closeStoryModal = document.getElementById("closeStoryModal");
+
+const nicknameModal = document.getElementById("nicknameModal");
+const setNicknameBtn = document.getElementById("setNicknameBtn");
+
+// -------------------------
+// SELECTORES LOGIN
+// -------------------------
 const loginDropdown = document.getElementById("loginDropdown");
 const loginBtn = document.getElementById("loginBtn");
 const logoutBtn = document.getElementById("logoutBtn");
 const loginMsg = document.getElementById("loginMsg");
+const usernameInput = document.getElementById("username");
+const passwordInput = document.getElementById("password");
 
-// Mostrar / ocultar formulario al hacer click en el icono
-loginIcon.addEventListener("click", () => {
-  loginDropdown.style.display = loginDropdown.style.display === "flex" ? "none" : "flex";
-  loginDropdown.style.flexDirection = "column";
+// -------------------------
+// FUNCIONES DOCK
+// -------------------------
+themeBtn.addEventListener("click", () => document.body.classList.toggle("dark-theme"));
+
+newStoryBtn.addEventListener("click", () => storyModal.style.display = "flex");
+closeStoryModal.addEventListener("click", () => storyModal.style.display = "none");
+
+changeNickBtn.addEventListener("click", () => nicknameModal.style.display = "flex");
+setNicknameBtn.addEventListener("click", () => {
+  const nickname = document.getElementById("nicknameInput").value.trim();
+  if(nickname){
+    localStorage.setItem("nickname", nickname);
+    nicknameModal.style.display = "none";
+    alert("Nickname guardado: " + nickname);
+  }
 });
 
+shareBtn.addEventListener("click", () => alert("Función de compartir pendiente"));
+
+// -------------------------
+// LOGIN LOCAL OPTIMIZADO
+// -------------------------
+
 // Crear usuario de prueba
-function createUser(username, password) {
-  localStorage.setItem("user_" + username, JSON.stringify({ username, password }));
+const DEFAULT_USER = { username: "jhossue", password: "1234" };
+if(!localStorage.getItem("user_" + DEFAULT_USER.username)){
+  localStorage.setItem("user_" + DEFAULT_USER.username, JSON.stringify(DEFAULT_USER));
 }
-createUser("jhossue", "1234");
 
-// Función de login
-function loginUser() {
-  const username = document.getElementById("username").value.trim();
-  const password = document.getElementById("password").value.trim();
+// Mostrar/ocultar login con animación
+loginIcon.addEventListener("click", () => {
+  loginDropdown.classList.toggle("show");
+});
 
-  if (!username || !password) {
+// Login
+loginBtn.addEventListener("click", () => {
+  const username = usernameInput.value.trim();
+  const password = passwordInput.value.trim();
+  if(!username || !password){
     loginMsg.style.color = "#ff6b6b";
     loginMsg.textContent = "Debes llenar todos los campos";
     return;
   }
-
   const storedUser = JSON.parse(localStorage.getItem("user_" + username));
-  if (storedUser && storedUser.password === password) {
+  if(storedUser && storedUser.password === password){
     localStorage.setItem("sessionUser", username);
     loginMsg.style.color = "#2bd4ff";
-    loginMsg.textContent = "¡Bienvenido " + username + "!";
+    loginMsg.textContent = `¡Bienvenido ${username}!`;
     loginBtn.style.display = "none";
     logoutBtn.style.display = "block";
   } else {
     loginMsg.style.color = "#ff6b6b";
     loginMsg.textContent = "Usuario o contraseña incorrectos";
   }
-}
+});
 
 // Logout
-function logout() {
+logoutBtn.addEventListener("click", () => {
   localStorage.removeItem("sessionUser");
   loginMsg.textContent = "";
   loginBtn.style.display = "block";
   logoutBtn.style.display = "none";
-}
-
-// Asignar eventos
-loginBtn.addEventListener("click", loginUser);
-logoutBtn.addEventListener("click", logout);
+});
 
 // Revisar sesión activa al cargar
 window.addEventListener("DOMContentLoaded", () => {
   const sessionUser = localStorage.getItem("sessionUser");
-  if (sessionUser) {
+  if(sessionUser){
     loginMsg.style.color = "#2bd4ff";
-    loginMsg.textContent = "¡Bienvenido " + sessionUser + "!";
+    loginMsg.textContent = `¡Bienvenido ${sessionUser}!`;
     loginBtn.style.display = "none";
     logoutBtn.style.display = "block";
-    loginDropdown.style.display = "flex";
-    loginDropdown.style.flexDirection = "column";
-  }
-});
-
-// -------------------------
-// MODALES EXISTENTES
-// -------------------------
-
-const storyModal = document.getElementById("storyModal");
-const closeStoryModal = document.getElementById("closeStoryModal");
-closeStoryModal.addEventListener("click", () => {
-  storyModal.style.display = "none";
-});
-
-const nicknameModal = document.getElementById("nicknameModal");
-const setNicknameBtn = document.getElementById("setNicknameBtn");
-setNicknameBtn.addEventListener("click", () => {
-  const nickname = document.getElementById("nicknameInput").value.trim();
-  if (nickname) {
-    localStorage.setItem("nickname", nickname);
-    nicknameModal.style.display = "none";
-    alert("Nickname guardado: " + nickname);
+    loginDropdown.classList.add("show");
   }
 });
