@@ -4,23 +4,33 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Storys</title>
-
+  
   <!-- Estilos -->
   <link rel="stylesheet" href="style.css">
+
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 </head>
-<body>
+<body class="dark-theme">
+
   <!-- HEADER -->
   <header class="feed-header">
     <h1>Histories</h1>
   </header>
+
+  <!-- FEED -->
+  <main id="storyFeed">
+    <div class="placeholder fade-up">No hay stories aún, sé el primero en publicar 💬</div>
+  </main>
 
   <!-- MODAL STORY -->
   <div class="modal" id="storyModal">
     <div class="modal-content">
       <textarea id="storyInput" placeholder="¿Qué estás pensando?"></textarea>
       <div class="modal-actions">
-        <button id="publishBtn" class="btn">Publicar</button>
-        <button id="closeStoryModal" class="btn">Cerrar</button>
+        <button class="btn" id="publishBtn">Publicar</button>
+        <button class="btn" id="closeStoryModal">Cerrar</button>
       </div>
     </div>
   </div>
@@ -29,34 +39,27 @@
   <div class="modal" id="nicknameModal">
     <div class="modal-content">
       <input type="text" id="nicknameInput" placeholder="Escribe tu nickname">
-      <button id="setNicknameBtn" class="btn">Guardar</button>
+      <button class="btn" id="setNicknameBtn">Guardar</button>
     </div>
   </div>
 
-  <!-- FEED -->
-  <main id="storyFeed">
-    <div class="placeholder">No hay stories aún, sé el primero en publicar 💬</div>
-  </main>
+  <!-- LOGIN DROPDOWN -->
+  <div class="login-dropdown" id="loginDropdown">
+    <input type="text" id="username" placeholder="Usuario" />
+    <input type="password" id="password" placeholder="Contraseña" />
+    <button class="btn" id="loginBtn">Ingresar</button>
+    <button class="btn" id="registerBtn">Crear usuario</button>
+    <button class="btn" id="logoutBtn" style="display:none;">Cerrar sesión</button>
+    <p id="loginMsg"></p>
+  </div>
 
-  <!-- BOTTOM DOCK -->
+  <!-- DOCK -->
   <div class="bottom-dock">
     <div class="dock-icon" id="themeBtn" title="Cambiar tema">🌞</div>
     <div class="dock-icon" id="newStoryBtn" title="Nuevo Story">📝</div>
     <div class="dock-icon" id="changeNickBtn" title="Cambiar Nickname">👤</div>
     <div class="dock-icon" id="shareBtn" title="Compartir">🔗</div>
     <div class="dock-icon" id="loginIcon" title="Iniciar sesión">🔑</div>
-  </div>
-
-  <!-- LOGIN DROPDOWN -->
-  <div id="loginDropdown" class="login-dropdown">
-    <input type="text" id="username" placeholder="Usuario" />
-    <input type="password" id="password" placeholder="Contraseña" />
-    <div class="login-buttons">
-      <button id="loginBtn" class="btn">Ingresar</button>
-      <button id="createBtn" class="btn">Crear Usuario</button>
-      <button id="logoutBtn" class="btn" style="display:none;">Cerrar sesión</button>
-    </div>
-    <p id="loginMsg"></p>
   </div>
 
   <!-- Script -->
