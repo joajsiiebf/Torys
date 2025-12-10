@@ -121,5 +121,71 @@ h1,h2,h3,h4,h5 {
   to {
     opacity: 1;
     transform: translateY(0);
+     /* -----------------------------
+   LOGIN LOCAL ESTILO iOS
+   ----------------------------- */
+.login-dropdown {
+  position: fixed;
+  bottom: 110px; /* encima del bottom dock */
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(255,255,255,0.06);
+  backdrop-filter: blur(18px);
+  border-radius: 20px;
+  padding: 16px;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  width: 280px;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.5);
+  z-index: 999;
+  transition: all 0.25s ease;
+}
+
+.login-dropdown input {
+  width: 100%;
+  padding: 10px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.12);
+  background: rgba(255,255,255,0.04);
+  color: #fff;
+  font-size: 14px;
+}
+
+.login-dropdown input::placeholder {
+  color: rgba(255,255,255,0.6);
+}
+
+.login-dropdown button {
+  width: 100%;
+  padding: 10px;
+  border-radius: 16px;
+  border: none;
+  cursor: pointer;
+  background: linear-gradient(90deg, var(--accent), var(--accent-dark));
+  color: #fff;
+  font-weight: 600;
+  transition: filter 0.2s ease;
+}
+
+.login-dropdown button:hover {
+  filter: brightness(1.1);
+}
+
+#loginMsg {
+  font-size: 0.9em;
+  color: #ff6b6b;
+  text-align: center;
+  margin-top: 4px;
+}
+
+/* Ajuste responsive para móviles */
+@media (max-width: 500px) {
+  .login-dropdown {
+    width: 90%;
+    bottom: 100px;
+  }
+}
   }
 }
