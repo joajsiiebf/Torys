@@ -1,174 +1,186 @@
-// -------------------------
-// FIREBASE CONFIG
-// -------------------------
-import { initializeApp } from "firebase/app";
-import { getDatabase, ref, push, onValue } from "firebase/database";
-import { getAnalytics } from "firebase/analytics";
-
+// -----------------------------
 // Configuración Firebase
+// -----------------------------
 const firebaseConfig = {
   apiKey: "AIzaSyDYPKKEtJmqazv6MhuRhfS79jyHf2NpqoA",
   authDomain: "torys-16335.firebaseapp.com",
   databaseURL: "https://torys-16335-default-rtdb.firebaseio.com",
   projectId: "torys-16335",
-  storageBucket: "torys-16335.firebasestorage.app",
+  storageBucket: "torys-16335.appspot.com",
   messagingSenderId: "97006009990",
   appId: "1:97006009990:web:f815478cf0d219f8d15b07",
   measurementId: "G-H9D9DEKZ7K"
 };
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
 
-// Inicializar Firebase
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
-const db = getDatabase(app);
+// -----------------------------
+// Elementos DOM
+// -----------------------------
+const storyFeed = document.getElementById('storyFeed');
+const storyModal = document.getElementById('storyModal');
+const newStoryBtn = document.getElementById('newStoryBtn');
+const closeStoryModal = document.getElementById('closeStoryModal');
+const publishBtn = document.getElementById('publishBtn');
+const storyInput = document.getElementById('storyInput');
 
-// -------------------------
-// SELECTORES DOCK
-// -------------------------
-const themeBtn = document.getElementById("themeBtn");
-const newStoryBtn = document.getElementById("newStoryBtn");
-const changeNickBtn = document.getElementById("changeNickBtn");
-const shareBtn = document.getElementById("shareBtn");
-const loginIcon = document.getElementById("loginIcon");
+const nicknameModal = document.getElementById('nicknameModal');
+const changeNickBtn = document.getElementById('changeNickBtn');
+const nicknameInput = document.getElementById('nicknameInput');
+const setNicknameBtn = document.getElementById('setNicknameBtn');
 
-// -------------------------
-// SELECTORES MODALES
-// -------------------------
-const storyModal = document.getElementById("storyModal");
-const closeStoryModal = document.getElementById("closeStoryModal");
-const nicknameModal = document.getElementById("nicknameModal");
-const setNicknameBtn = document.getElementById("setNicknameBtn");
+const loginIcon = document.getElementById('loginIcon');
+const loginDropdown = document.getElementById('loginDropdown');
+const loginBtn = document.getElementById('loginBtn');
+const registerBtn = document.getElementById('registerBtn');
+const logoutBtn = document.getElementById('logoutBtn');
+const usernameInput = document.getElementById('username');
+const passwordInput = document.getElementById('password');
+const loginMsg = document.getElementById('loginMsg');
 
-const storyInput = document.getElementById("storyInput");
-const storyFeed = document.getElementById("storyFeed");
+const themeBtn = document.getElementById('themeBtn');
 
-// -------------------------
-// SELECTORES LOGIN
-// -------------------------
-const loginDropdown = document.getElementById("loginDropdown");
-const loginBtn = document.getElementById("loginBtn");
-const createBtn = document.getElementById("createBtn");
-const logoutBtn = document.getElementById("logoutBtn");
-const loginMsg = document.getElementById("loginMsg");
-const usernameInput = document.getElementById("username");
-const passwordInput = document.getElementById("password");
+// -----------------------------
+// Estado local
+// -----------------------------
+let currentUser = localStorage.getItem('currentUser') || null;
+let nickname = localStorage.getItem('nickname') || null;
 
-// -------------------------
-// FUNCIONES DOCK
-// -------------------------
-themeBtn.addEventListener("click", () => document.body.classList.toggle("dark-theme"));
-
-newStoryBtn.addEventListener("click", () => storyModal.style.display = "flex");
-closeStoryModal.addEventListener("click", () => storyModal.style.display = "none");
-
-changeNickBtn.addEventListener("click", () => nicknameModal.style.display = "flex");
-setNicknameBtn.addEventListener("click", () => {
-  const nickname = document.getElementById("nicknameInput").value.trim();
-  if(nickname){
-    localStorage.setItem("nickname", nickname);
-    nicknameModal.style.display = "none";
-    alert("Nickname guardado: " + nickname);
-  }
+// -----------------------------
+// Tema oscuro / AMOLED
+// -----------------------------
+themeBtn.addEventListener('click', () => {
+  document.body.classList.toggle('dark-theme');
 });
 
-shareBtn.addEventListener("click", () => alert("Función de compartir pendiente"));
-
-// -------------------------
-// LOGIN LOCAL
-// -------------------------
-loginIcon.addEventListener("click", () => loginDropdown.classList.toggle("show"));
-
-// Crear usuario
-createBtn.addEventListener("click", () => {
-  const username = usernameInput.value.trim();
-  const password = passwordInput.value.trim();
-  if(!username || !password){
-    loginMsg.style.color = "#ff6b6b";
-    loginMsg.textContent = "Debes llenar todos los campos";
-    return;
-  }
-  if(localStorage.getItem("user_" + username)){
-    loginMsg.style.color = "#ff6b6b";
-    loginMsg.textContent = "El usuario ya existe";
-    return;
-  }
-  localStorage.setItem("user_" + username, JSON.stringify({ username, password }));
-  loginMsg.style.color = "#2bd4ff";
-  loginMsg.textContent = "Usuario creado correctamente!";
-});
-
-// Login
-loginBtn.addEventListener("click", () => {
-  const username = usernameInput.value.trim();
-  const password = passwordInput.value.trim();
-  if(!username || !password){
-    loginMsg.style.color = "#ff6b6b";
-    loginMsg.textContent = "Debes llenar todos los campos";
-    return;
-  }
-  const storedUser = JSON.parse(localStorage.getItem("user_" + username));
-  if(storedUser && storedUser.password === password){
-    localStorage.setItem("sessionUser", username);
-    loginMsg.style.color = "#2bd4ff";
-    loginMsg.textContent = `¡Bienvenido ${username}!`;
-    loginBtn.style.display = "none";
-    logoutBtn.style.display = "block";
+// -----------------------------
+// Login dropdown toggle
+// -----------------------------
+loginIcon.addEventListener('click', () => {
+  loginDropdown.classList.toggle('show');
+  if(currentUser) {
+    logoutBtn.style.display = 'block';
+    loginBtn.style.display = 'none';
+    registerBtn.style.display = 'none';
+    usernameInput.style.display = 'none';
+    passwordInput.style.display = 'none';
+    loginMsg.textContent = `Hola ${currentUser}`;
   } else {
-    loginMsg.style.color = "#ff6b6b";
-    loginMsg.textContent = "Usuario o contraseña incorrectos";
+    logoutBtn.style.display = 'none';
+    loginBtn.style.display = 'block';
+    registerBtn.style.display = 'block';
+    usernameInput.style.display = 'block';
+    passwordInput.style.display = 'block';
+    loginMsg.textContent = '';
   }
 });
 
-// Logout
-logoutBtn.addEventListener("click", () => {
-  localStorage.removeItem("sessionUser");
-  loginMsg.textContent = "";
-  loginBtn.style.display = "block";
-  logoutBtn.style.display = "none";
+// -----------------------------
+// Login / Register
+// -----------------------------
+loginBtn.addEventListener('click', () => {
+  const user = usernameInput.value.trim();
+  const pass = passwordInput.value;
+  if(!user || !pass) return loginMsg.textContent = "Rellena todos los campos";
+
+  db.ref('users/' + user).get().then(snapshot => {
+    if(snapshot.exists() && snapshot.val().password === pass){
+      currentUser = user;
+      localStorage.setItem('currentUser', user);
+      loginMsg.textContent = `Bienvenido ${user}`;
+      usernameInput.value = passwordInput.value = '';
+    } else {
+      loginMsg.textContent = "Usuario o contraseña incorrecta";
+    }
+  });
 });
 
-// Revisar sesión activa al cargar
-window.addEventListener("DOMContentLoaded", () => {
-  const sessionUser = localStorage.getItem("sessionUser");
-  if(sessionUser){
-    loginMsg.style.color = "#2bd4ff";
-    loginMsg.textContent = `¡Bienvenido ${sessionUser}!`;
-    loginBtn.style.display = "none";
-    logoutBtn.style.display = "block";
-    loginDropdown.classList.add("show");
-  }
+registerBtn.addEventListener('click', () => {
+  const user = usernameInput.value.trim();
+  const pass = passwordInput.value;
+  if(!user || !pass) return loginMsg.textContent = "Rellena todos los campos";
+
+  db.ref('users/' + user).get().then(snapshot => {
+    if(snapshot.exists()) {
+      loginMsg.textContent = "Usuario ya existe";
+    } else {
+      db.ref('users/' + user).set({password: pass}).then(() => {
+        loginMsg.textContent = "Usuario creado correctamente";
+      });
+    }
+  });
 });
 
-// -------------------------
-// STORIES FIREBASE
-// -------------------------
-const publishBtn = document.getElementById("publishBtn");
+logoutBtn.addEventListener('click', () => {
+  currentUser = null;
+  localStorage.removeItem('currentUser');
+  loginDropdown.classList.remove('show');
+});
 
-publishBtn.addEventListener("click", () => {
+// -----------------------------
+// Modales
+// -----------------------------
+newStoryBtn.addEventListener('click', () => {
+  if(!currentUser) return alert("Inicia sesión primero");
+  storyModal.style.display = 'flex';
+});
+
+closeStoryModal.addEventListener('click', () => {
+  storyModal.style.display = 'none';
+});
+
+changeNickBtn.addEventListener('click', () => {
+  nicknameModal.style.display = 'flex';
+});
+
+setNicknameBtn.addEventListener('click', () => {
+  const nick = nicknameInput.value.trim();
+  if(!nick) return;
+  nickname = nick;
+  localStorage.setItem('nickname', nick);
+  nicknameModal.style.display = 'none';
+});
+
+// -----------------------------
+// Publicar historia
+// -----------------------------
+publishBtn.addEventListener('click', () => {
   const text = storyInput.value.trim();
-  const nickname = localStorage.getItem("nickname") || "Anonimo";
-  if(!text) return alert("Escribe algo para publicar");
-
-  const storyRef = ref(db, 'stories');
-  push(storyRef, { text, nickname, timestamp: Date.now() });
-
-  storyInput.value = "";
-  storyModal.style.display = "none";
+  if(!text) return;
+  const storyData = {
+    text,
+    user: currentUser || 'Anon',
+    nickname: nickname || 'Anon',
+    timestamp: Date.now()
+  };
+  const newStoryRef = db.ref('stories').push();
+  newStoryRef.set(storyData).then(() => {
+    storyInput.value = '';
+    storyModal.style.display = 'none';
+    loadStories();
+  });
 });
 
-// Escuchar cambios en tiempo real
-const storiesRef = ref(db, 'stories');
-onValue(storiesRef, (snapshot) => {
-  storyFeed.innerHTML = "";
-  if(snapshot.exists()){
-    const data = snapshot.val();
-    Object.values(data).forEach(story => {
-      const div = document.createElement("div");
-      div.classList.add("tory-card", "fade-up");
-      div.innerHTML = `<strong>${story.nickname}</strong>: ${story.text}`;
-      storyFeed.appendChild(div);
+// -----------------------------
+// Cargar stories
+// -----------------------------
+function loadStories(){
+  db.ref('stories').orderByChild('timestamp').limitToLast(20).get().then(snapshot => {
+    storyFeed.innerHTML = '';
+    if(!snapshot.exists()) {
+      storyFeed.innerHTML = '<div class="placeholder fade-up">No hay stories aún 💬</div>';
+      return;
+    }
+    const stories = [];
+    snapshot.forEach(child => stories.push(child.val()));
+    stories.reverse().forEach(s => {
+      const card = document.createElement('div');
+      card.className = 'tory-card fade-up';
+      card.innerHTML = `<strong>${s.nickname}</strong><p>${s.text}</p>`;
+      storyFeed.appendChild(card);
     });
-  } else {
-    storyFeed.innerHTML = `<div class="placeholder">No hay stories aún, sé el primero en publicar 💬</div>`;
-  }
-});
+  });
+}
+
+// Inicializar
+loadStories();
