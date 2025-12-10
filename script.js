@@ -1,125 +1,118 @@
-// ==============================
-// 🔹 CONFIGURACIÓN DE FIREBASE 🔹
-// ==============================
+// -------------------------
+// DOCK ICONS FUNCTIONALITY
+// -------------------------
 
-const firebaseConfig = {
-  apiKey: "AIzaSyDYPKKEtJmqazv6MhuRhfS79jyHf2NpqoA",
-  authDomain: "torys-16335.firebaseapp.com",
-  databaseURL: "https://torys-16335-default-rtdb.firebaseio.com",
-  projectId: "torys-16335",
-  storageBucket: "torys-16335.firebasestorage.app",
-  messagingSenderId: "97006009990",
-  appId: "1:97006009990:web:f815478cf0d219f8d15b07",
-  measurementId: "G-H9D9DEKZ7K"
-};
+const themeBtn = document.getElementById("themeBtn");
+const newStoryBtn = document.getElementById("newStoryBtn");
+const changeNickBtn = document.getElementById("changeNickBtn");
+const shareBtn = document.getElementById("shareBtn");
 
-firebase.initializeApp(firebaseConfig);
-const db = firebase.database();
-
-// ==============================
-// 🔹 VARIABLES PRINCIPALES 🔹
-const storyFeed = document.getElementById('storyFeed');
-const storyInput = document.getElementById('storyInput');
-const storyModal = document.getElementById('storyModal');
-const newStoryBtn = document.getElementById('newStoryBtn');
-const closeStoryModal = document.getElementById('closeStoryModal');
-
-const nicknameModal = document.getElementById('nicknameModal');
-const nicknameInput = document.getElementById('nicknameInput');
-const setNicknameBtn = document.getElementById('setNicknameBtn');
-const changeNickBtn = document.getElementById('changeNickBtn');
-
-const themeBtn = document.getElementById('themeBtn');
-const shareBtn = document.getElementById('shareBtn');
-
-let nickname = localStorage.getItem('storysNickname') || 'Anónimo';
-nicknameInput.value = nickname;
-
-// ==============================
-// 🔹 MODALES 🔹
-newStoryBtn.addEventListener('click', () => storyModal.style.display = 'flex');
-closeStoryModal.addEventListener('click', () => storyModal.style.display = 'none');
-
-changeNickBtn.addEventListener('click', () => nicknameModal.style.display = 'flex');
-setNicknameBtn.addEventListener('click', () => {
-  nickname = nicknameInput.value.trim() || 'Anónimo';
-  localStorage.setItem('storysNickname', nickname);
-  nicknameModal.style.display = 'none';
+// Aquí puedes poner las funciones actuales de tus botones
+themeBtn.addEventListener("click", () => {
+  // Cambiar tema
+  document.body.classList.toggle("dark-theme");
 });
 
-// ==============================
-// 🔹 MODO CLARO / OSCURO 🔹
-if(localStorage.getItem('storysTheme') === 'dark') document.body.classList.add('dark');
-themeBtn.addEventListener('click', () => {
-  document.body.classList.toggle('dark');
-  localStorage.setItem('storysTheme', document.body.classList.contains('dark') ? 'dark' : 'light');
+newStoryBtn.addEventListener("click", () => {
+  document.getElementById("storyModal").style.display = "flex";
 });
 
-// ==============================
-// 🔹 COMPARTIR PÁGINA 🔹
-shareBtn.addEventListener('click', () => {
-  if(navigator.share){
-    navigator.share({title:'Storys', url:location.href});
-  } else {
-    navigator.clipboard.writeText(location.href);
-    alert('Enlace copiado al portapapeles');
-  }
+changeNickBtn.addEventListener("click", () => {
+  document.getElementById("nicknameModal").style.display = "flex";
 });
 
-// ==============================
-// 🔹 PUBLICAR STORY 🔹
-document.getElementById('publishBtn').addEventListener('click', () => {
-  const text = storyInput.value.trim();
-  if(!text) return;
+shareBtn.addEventListener("click", () => {
+  alert("Función de compartir pendiente");
+});
 
-  // COMANDO SECRETO #OWNER Delete
-  if(text === '#OWNER Delete'){
-    db.ref('torys').remove()
-      .then(() => {
-        storyFeed.innerHTML = '<div class="placeholder">No hay Torys aún, sé el primero en publicar 💬</div>';
-        storyInput.value = '';
-        storyModal.style.display = 'none';
-        alert('Todos los Torys han sido borrados ✅');
-      }).catch(err => console.error(err));
+// -------------------------
+// LOGIN LOCAL
+// -------------------------
+
+const loginIcon = document.getElementById("loginIcon");
+const loginDropdown = document.getElementById("loginDropdown");
+const loginBtn = document.getElementById("loginBtn");
+const logoutBtn = document.getElementById("logoutBtn");
+const loginMsg = document.getElementById("loginMsg");
+
+// Mostrar / ocultar formulario al hacer click en el icono
+loginIcon.addEventListener("click", () => {
+  loginDropdown.style.display = loginDropdown.style.display === "flex" ? "none" : "flex";
+  loginDropdown.style.flexDirection = "column";
+});
+
+// Crear usuario de prueba
+function createUser(username, password) {
+  localStorage.setItem("user_" + username, JSON.stringify({ username, password }));
+}
+createUser("jhossue", "1234");
+
+// Función de login
+function loginUser() {
+  const username = document.getElementById("username").value.trim();
+  const password = document.getElementById("password").value.trim();
+
+  if (!username || !password) {
+    loginMsg.style.color = "#ff6b6b";
+    loginMsg.textContent = "Debes llenar todos los campos";
     return;
   }
 
-  // Publicación normal
-  const dataObj = {
-    text,
-    nickname,
-    timestamp: Date.now(),
-    '👍':0,'👎':0,'😂':0,'😡':0
-  };
-  db.ref('torys').push(dataObj);
-  storyInput.value = '';
-  storyModal.style.display = 'none';
+  const storedUser = JSON.parse(localStorage.getItem("user_" + username));
+  if (storedUser && storedUser.password === password) {
+    localStorage.setItem("sessionUser", username);
+    loginMsg.style.color = "#2bd4ff";
+    loginMsg.textContent = "¡Bienvenido " + username + "!";
+    loginBtn.style.display = "none";
+    logoutBtn.style.display = "block";
+  } else {
+    loginMsg.style.color = "#ff6b6b";
+    loginMsg.textContent = "Usuario o contraseña incorrectos";
+  }
+}
+
+// Logout
+function logout() {
+  localStorage.removeItem("sessionUser");
+  loginMsg.textContent = "";
+  loginBtn.style.display = "block";
+  logoutBtn.style.display = "none";
+}
+
+// Asignar eventos
+loginBtn.addEventListener("click", loginUser);
+logoutBtn.addEventListener("click", logout);
+
+// Revisar sesión activa al cargar
+window.addEventListener("DOMContentLoaded", () => {
+  const sessionUser = localStorage.getItem("sessionUser");
+  if (sessionUser) {
+    loginMsg.style.color = "#2bd4ff";
+    loginMsg.textContent = "¡Bienvenido " + sessionUser + "!";
+    loginBtn.style.display = "none";
+    logoutBtn.style.display = "block";
+    loginDropdown.style.display = "flex";
+    loginDropdown.style.flexDirection = "column";
+  }
 });
 
-// ==============================
-// 🔹 RENDERIZAR STORIES EN TIEMPO REAL 🔹
-db.ref('torys').on('child_added', snap => {
-  const data = snap.val();
-  const div = document.createElement('div');
-  div.className = 'storyCard';
-  div.dataset.id = snap.key;
+// -------------------------
+// MODALES EXISTENTES
+// -------------------------
 
-  const date = new Date(data.timestamp || Date.now());
-
-  div.innerHTML = `
-    <div class="nicknameBubble">${data.nickname}</div>
-    <div>${data.text}</div>
-    <small>${date.toLocaleString()}</small>
-  `;
-
-  storyFeed.prepend(div);
+const storyModal = document.getElementById("storyModal");
+const closeStoryModal = document.getElementById("closeStoryModal");
+closeStoryModal.addEventListener("click", () => {
+  storyModal.style.display = "none";
 });
 
-db.ref('torys').on('child_removed', snap => {
-  // Actualiza feed si se borra un Story
-  const div = document.querySelector(`.storyCard[data-id='${snap.key}']`);
-  if(div) div.remove();
-  if(storyFeed.children.length === 0){
-    storyFeed.innerHTML = '<div class="placeholder">No hay Torys aún, sé el primero en publicar 💬</div>';
+const nicknameModal = document.getElementById("nicknameModal");
+const setNicknameBtn = document.getElementById("setNicknameBtn");
+setNicknameBtn.addEventListener("click", () => {
+  const nickname = document.getElementById("nicknameInput").value.trim();
+  if (nickname) {
+    localStorage.setItem("nickname", nickname);
+    nicknameModal.style.display = "none";
+    alert("Nickname guardado: " + nickname);
   }
 });
