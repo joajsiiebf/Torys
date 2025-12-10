@@ -1,5 +1,5 @@
 // -----------------------------
-// Configuración Firebase
+// Configuración Firebase (compat)
 // -----------------------------
 const firebaseConfig = {
   apiKey: "AIzaSyDYPKKEtJmqazv6MhuRhfS79jyHf2NpqoA",
@@ -15,7 +15,7 @@ firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 
 // -----------------------------
-// Elementos DOM
+// ELEMENTOS DEL DOM
 // -----------------------------
 const storyFeed = document.getElementById('storyFeed');
 const storyModal = document.getElementById('storyModal');
@@ -41,24 +41,25 @@ const loginMsg = document.getElementById('loginMsg');
 const themeBtn = document.getElementById('themeBtn');
 
 // -----------------------------
-// Estado local
+// ESTADO LOCAL
 // -----------------------------
 let currentUser = localStorage.getItem('currentUser') || null;
 let nickname = localStorage.getItem('nickname') || null;
 
 // -----------------------------
-// Tema oscuro / AMOLED
+// CAMBIO DE TEMA OSCURO / AMOLED
 // -----------------------------
 themeBtn.addEventListener('click', () => {
   document.body.classList.toggle('dark-theme');
 });
 
 // -----------------------------
-// Login dropdown toggle
+// TOGGLE LOGIN DROPDOWN
 // -----------------------------
 loginIcon.addEventListener('click', () => {
   loginDropdown.classList.toggle('show');
-  if(currentUser) {
+
+  if(currentUser){
     logoutBtn.style.display = 'block';
     loginBtn.style.display = 'none';
     registerBtn.style.display = 'none';
@@ -76,14 +77,18 @@ loginIcon.addEventListener('click', () => {
 });
 
 // -----------------------------
-// Login / Register
+// LOGIN
 // -----------------------------
 loginBtn.addEventListener('click', () => {
   const user = usernameInput.value.trim();
   const pass = passwordInput.value;
-  if(!user || !pass) return loginMsg.textContent = "Rellena todos los campos";
 
-  db.ref('users/' + user).get().then(snapshot => {
+  if(!user || !pass){
+    loginMsg.textContent = "Rellena todos los campos";
+    return;
+  }
+
+  db.ref('users/' + user).once('value', snapshot => {
     if(snapshot.exists() && snapshot.val().password === pass){
       currentUser = user;
       localStorage.setItem('currentUser', user);
@@ -95,13 +100,20 @@ loginBtn.addEventListener('click', () => {
   });
 });
 
+// -----------------------------
+// REGISTRO
+// -----------------------------
 registerBtn.addEventListener('click', () => {
   const user = usernameInput.value.trim();
   const pass = passwordInput.value;
-  if(!user || !pass) return loginMsg.textContent = "Rellena todos los campos";
 
-  db.ref('users/' + user).get().then(snapshot => {
-    if(snapshot.exists()) {
+  if(!user || !pass){
+    loginMsg.textContent = "Rellena todos los campos";
+    return;
+  }
+
+  db.ref('users/' + user).once('value', snapshot => {
+    if(snapshot.exists()){
       loginMsg.textContent = "Usuario ya existe";
     } else {
       db.ref('users/' + user).set({password: pass}).then(() => {
@@ -111,6 +123,9 @@ registerBtn.addEventListener('click', () => {
   });
 });
 
+// -----------------------------
+// LOGOUT
+// -----------------------------
 logoutBtn.addEventListener('click', () => {
   currentUser = null;
   localStorage.removeItem('currentUser');
@@ -118,7 +133,7 @@ logoutBtn.addEventListener('click', () => {
 });
 
 // -----------------------------
-// Modales
+// MODALES
 // -----------------------------
 newStoryBtn.addEventListener('click', () => {
   if(!currentUser) return alert("Inicia sesión primero");
@@ -142,35 +157,40 @@ setNicknameBtn.addEventListener('click', () => {
 });
 
 // -----------------------------
-// Publicar historia
+// PUBLICAR STORY
 // -----------------------------
 publishBtn.addEventListener('click', () => {
   const text = storyInput.value.trim();
   if(!text) return;
+
   const storyData = {
     text,
     user: currentUser || 'Anon',
     nickname: nickname || 'Anon',
     timestamp: Date.now()
   };
-  const newStoryRef = db.ref('stories').push();
-  newStoryRef.set(storyData).then(() => {
-    storyInput.value = '';
-    storyModal.style.display = 'none';
-    loadStories();
-  });
+
+  db.ref('stories').push(storyData)
+    .then(() => {
+      storyInput.value = '';
+      storyModal.style.display = 'none';
+      loadStories();
+    })
+    .catch(err => console.error(err));
 });
 
 // -----------------------------
-// Cargar stories
+// CARGAR STORIES
 // -----------------------------
 function loadStories(){
-  db.ref('stories').orderByChild('timestamp').limitToLast(20).get().then(snapshot => {
+  db.ref('stories').orderByChild('timestamp').limitToLast(20).once('value', snapshot => {
     storyFeed.innerHTML = '';
-    if(!snapshot.exists()) {
+
+    if(!snapshot.exists()){
       storyFeed.innerHTML = '<div class="placeholder fade-up">No hay stories aún 💬</div>';
       return;
     }
+
     const stories = [];
     snapshot.forEach(child => stories.push(child.val()));
     stories.reverse().forEach(s => {
@@ -182,5 +202,7 @@ function loadStories(){
   });
 }
 
-// Inicializar
+// -----------------------------
+// INICIALIZAR
+// -----------------------------
 loadStories();
