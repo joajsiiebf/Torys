@@ -7,10 +7,6 @@
 
   <!-- Estilos -->
   <link rel="stylesheet" href="style.css">
-
-  <!-- Firebase -->
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 </head>
 <body>
   <!-- HEADER -->
@@ -23,8 +19,8 @@
     <div class="modal-content">
       <textarea id="storyInput" placeholder="¿Qué estás pensando?"></textarea>
       <div class="modal-actions">
-        <button id="publishBtn">Publicar</button>
-        <button id="closeStoryModal">Cerrar</button>
+        <button id="publishBtn" class="btn">Publicar</button>
+        <button id="closeStoryModal" class="btn">Cerrar</button>
       </div>
     </div>
   </div>
@@ -33,7 +29,7 @@
   <div class="modal" id="nicknameModal">
     <div class="modal-content">
       <input type="text" id="nicknameInput" placeholder="Escribe tu nickname">
-      <button id="setNicknameBtn">Guardar</button>
+      <button id="setNicknameBtn" class="btn">Guardar</button>
     </div>
   </div>
 
@@ -48,16 +44,18 @@
     <div class="dock-icon" id="newStoryBtn" title="Nuevo Story">📝</div>
     <div class="dock-icon" id="changeNickBtn" title="Cambiar Nickname">👤</div>
     <div class="dock-icon" id="shareBtn" title="Compartir">🔗</div>
-    <!-- ICONO LOGIN -->
     <div class="dock-icon" id="loginIcon" title="Iniciar sesión">🔑</div>
   </div>
 
-  <!-- FORMULARIO DE LOGIN DESPLEGABLE -->
+  <!-- LOGIN DROPDOWN -->
   <div id="loginDropdown" class="login-dropdown">
     <input type="text" id="username" placeholder="Usuario" />
     <input type="password" id="password" placeholder="Contraseña" />
-    <button id="loginBtn">Ingresar</button>
-    <button id="logoutBtn" style="display:none;">Cerrar sesión</button>
+    <div class="login-buttons">
+      <button id="loginBtn" class="btn">Ingresar</button>
+      <button id="createBtn" class="btn">Crear Usuario</button>
+      <button id="logoutBtn" class="btn" style="display:none;">Cerrar sesión</button>
+    </div>
     <p id="loginMsg"></p>
   </div>
 
